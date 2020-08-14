@@ -14,7 +14,7 @@ class NoteController extends Controller
      */
     public function index()
     {
-        //
+        return $note = Note::orderByDesc("id")->get();
     }
 
     /**
@@ -73,7 +73,10 @@ class NoteController extends Controller
      */
     public function update(Request $request, Note $note)
     {
-        //
+        $note->content = $request->content;
+        $note->save();
+
+        return $note;
     }
 
     /**

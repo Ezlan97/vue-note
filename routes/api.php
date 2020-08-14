@@ -19,5 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['as' => 'api.notes.','prefix' => 'notes',], function() {
-    Route::post('/')->name('store')->uses('NoteController@store');
+    Route::get('/', 'NoteController@index')->name('note.index');
+    Route::post('/store', 'NoteController@store')->name('note.post');
+    Route::patch('/update/{note}', 'NoteController@update')->name('note.update');
 });
