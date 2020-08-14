@@ -14,7 +14,7 @@ class NoteController extends Controller
      */
     public function index()
     {
-        //
+        return $note = Note::orderByDesc("id")->get();
     }
 
     /**
@@ -22,9 +22,9 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -35,7 +35,11 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $note = new Note();
+        $note->content = $request->content;
+        $note->save();
+
+        return $note;
     }
 
     /**
@@ -69,7 +73,10 @@ class NoteController extends Controller
      */
     public function update(Request $request, Note $note)
     {
-        //
+        $note->content = $request->content;
+        $note->save();
+
+        return $note;
     }
 
     /**
