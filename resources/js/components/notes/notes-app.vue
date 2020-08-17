@@ -2,10 +2,10 @@
 
     <div class="wrapper container">
         <div class="notes">
-
+            <notes-notification :notify="notification" />
             <div class="row">
                 <div class="header col-md-12">
-                    <notes-header/>
+                    <notes-header @no-result-found="noResultFound" @result-found="onNoteClicked"/>
                 </div>
             </div>
 
@@ -17,7 +17,6 @@
                     <notes-content :note="activeNote" />
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -27,17 +26,20 @@
 import NotesList from './notes-list.vue';
 import NotesContent from './notes-content.vue';
 import NotesHeader from './notes-header.vue';
+import NotesNotification from './notes-notification.vue';
 
 export default {
     components : {
         NotesList,
         NotesContent,
         NotesHeader,
+        NotesNotification,
     },
 
     data() {
         return {
-            activeNote: null
+            activeNote: null,
+            notification: null
         }
     },
 
@@ -45,6 +47,10 @@ export default {
         onNoteClicked(note) {
             this.activeNote = note;
         },
+
+        noResultFound(noti) {
+            this.notification = noti;
+        }
     },    
 }
 </script>

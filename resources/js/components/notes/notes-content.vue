@@ -3,13 +3,7 @@
     <br>
     <p class="date text-center">{{ formatedDate }}</p>
     <div class="container">
-      <textarea
-        class="contentbox form-control"
-        v-if="note"
-        @keyup="updateNote"
-        v-model="note.content"
-        id="content"
-      ></textarea>
+      <textarea class="contentbox form-control" v-if="note" @keyup="updateNote" v-model="note.content" id="content"></textarea>
     </div>
   </div>
 </template>
