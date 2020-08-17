@@ -22,4 +22,5 @@ Route::group(['as' => 'api.notes.','prefix' => 'notes',], function() {
     Route::get('/', 'NoteController@index')->name('note.index');
     Route::post('/store', 'NoteController@store')->name('note.post');
     Route::patch('/update/{note}', 'NoteController@update')->name('note.update');
+    Route::post('/search', 'NoteController@search')->name('note.search');
 });

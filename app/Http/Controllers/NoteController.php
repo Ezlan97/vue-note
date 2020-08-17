@@ -89,4 +89,10 @@ class NoteController extends Controller
     {
         //
     }
+
+    public function search(Request $request) {
+        $result = Note::where("content", "like", "%" . $request->search . "%")->get();
+
+        return $result;
+    }
 }

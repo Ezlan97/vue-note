@@ -5,7 +5,7 @@
 
             <div class="row">
                 <div class="header col-md-12">
-                    <p>header</p>
+                    <notes-header/>
                 </div>
             </div>
 
@@ -26,11 +26,13 @@
 <script>
 import NotesList from './notes-list.vue';
 import NotesContent from './notes-content.vue';
+import NotesHeader from './notes-header.vue';
 
 export default {
     components : {
         NotesList,
-        NotesContent
+        NotesContent,
+        NotesHeader,
     },
 
     data() {
@@ -57,12 +59,14 @@ export default {
     .notes {
         flex-grow: 1;
 
-        .header {
-            background-color: greenyellow;            
+        .contents {
+            height: 80vh;
+            padding-left: 0%;
         }
 
         .list {
             height: 80vh;
+            padding-right: 0%;
         }
     }
 </style>
