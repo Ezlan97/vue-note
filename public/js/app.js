@@ -1938,12 +1938,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: {
-    component: {
-      type: Object,
-      required: true
-    }
-  },
   components: {
     NotesList: _notes_list_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     NotesContent: _notes_content_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -1971,6 +1965,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -1978,6 +1974,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     note: {
@@ -1995,33 +1998,30 @@ __webpack_require__.r(__webpack_exports__);
         date = new Date();
       }
 
-      return date.toLocaleString('en-gb', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
+      return date.toLocaleString("en-gb", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
       });
     }
   },
   methods: {
-    updateNote: function updateNote() {
-      var _this = this;
-
+    updateNote: lodash__WEBPACK_IMPORTED_MODULE_0___default.a.debounce(function () {
       //check if function called succesfully
       console.log("success : method save note called");
-      console.log('Content : ' + this.note.content); //ready new variable
+      console.log("Content : " + this.note.content); //ready new variable
 
-      var updatedContent = this.note.content; //call api and update
+      var updatedContent = this.note; //call api and update
 
-      axios.patch('api/notes/update/' + this.note.id, {
-        content: updatedContent
+      console.log("debounce this content : " + this.note.content);
+      axios.patch("api/notes/update/" + this.note.id, {
+        content: updatedContent.content
       }).then(function (res) {
-        _this.$emit("updated-content", updatedContent);
-
         console.log("api data = " + res.data);
       });
-    }
+    }, 1000)
   }
 });
 
@@ -2135,9 +2135,6 @@ __webpack_require__.r(__webpack_exports__);
     emitNoteClick: function emitNoteClick(note) {
       this.activeNoteId = note.id;
       this.$emit('note-clicked', note);
-    },
-    updatedContent: function updatedContent(_updatedContent) {
-      console.log(_updatedContent);
     }
   }
 });
@@ -38477,14 +38474,7 @@ var render = function() {
         _c(
           "div",
           { staticClass: "list col-md-4" },
-          [
-            _c("notes-list", {
-              on: {
-                "note-clicked": _vm.onNoteClicked,
-                "updated-content": _vm.updatedContent
-              }
-            })
-          ],
+          [_c("notes-list", { on: { "note-clicked": _vm.onNoteClicked } })],
           1
         ),
         _vm._v(" "),
@@ -50842,7 +50832,8 @@ module.exports = function(module) {
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js"); // window._ = require('lodash');
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

@@ -11,7 +11,7 @@
 
             <div class="row">
                 <div class="list col-md-4">
-                    <notes-list @note-clicked="onNoteClicked" @updated-content="updatedContent"/>
+                    <notes-list @note-clicked="onNoteClicked"/>
                 </div>
                 <div class="contents col-md-8">
                     <notes-content :note="activeNote" />
@@ -28,13 +28,6 @@ import NotesList from './notes-list.vue';
 import NotesContent from './notes-content.vue';
 
 export default {
-    props: {
-        component: {
-            type: Object,
-            required: true
-        }
-    },
-
     components : {
         NotesList,
         NotesContent

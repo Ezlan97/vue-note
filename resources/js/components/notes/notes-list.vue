@@ -49,10 +49,6 @@ export default {
             this.$emit('note-clicked', note);
         },
 
-        updatedContent(updatedContent) {
-            console.log(updatedContent);
-        },
-
     },
 }
 </script>
