@@ -47,7 +47,11 @@ export default {
         emitNoteClick(note) {
             this.activeNoteId = note.id;
             this.$emit('note-clicked', note);
-        }
+        },
+
+        updatedContent(updatedContent) {
+            console.log(updatedContent);
+        },
 
     },
 }
