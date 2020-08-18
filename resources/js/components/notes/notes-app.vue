@@ -11,10 +11,10 @@
 
             <div class="row">
                 <div class="list col-md-4">
-                    <notes-list @note-clicked="onNoteClicked"/>
+                    <notes-list @note-clicked="onNoteClicked" @new-note="onNewNote" />
                 </div>
                 <div class="contents col-md-8">
-                    <notes-content :note="activeNote" />
+                    <notes-content :note="activeNote" :show="status" />
                 </div>
             </div>
         </div>
@@ -39,7 +39,8 @@ export default {
     data() {
         return {
             activeNote: null,
-            notification: null
+            notification: null,
+            status: null
         }
     },
 
@@ -50,6 +51,10 @@ export default {
 
         noResultFound(noti) {
             this.notification = noti;
+        },
+
+        onNewNote(stats) {
+            this.status = stats;
         }
     },    
 }

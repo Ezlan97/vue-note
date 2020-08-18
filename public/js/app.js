@@ -1950,7 +1950,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       activeNote: null,
-      notification: null
+      notification: null,
+      status: null
     };
   },
   methods: {
@@ -1959,6 +1960,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     noResultFound: function noResultFound(noti) {
       this.notification = noti;
+    },
+    onNewNote: function onNewNote(stats) {
+      this.status = stats;
     }
   }
 });
@@ -1984,12 +1988,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     note: {
       type: Object,
       required: false
     }
+  },
+  data: function data() {
+    return {
+      show: false
+    };
   },
   computed: {
     formatedDate: function formatedDate() {
@@ -2139,7 +2154,14 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     updatedate: function updatedate() {
-      return new Date(this.note.updated_at);
+      var date = new Date(this.note.updated_at);
+      return date.toLocaleString("en-gb", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
     }
   }
 });
@@ -2156,6 +2178,21 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _notes_item_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./notes-item.vue */ "./resources/js/components/notes/notes-item.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2188,7 +2225,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.loading = true;
-      axios.get('api/notes').then(function (res) {
+      axios.get("api/notes").then(function (res) {
         _this.notelist = res.data;
         console.log("api data = " + notelist);
       })["finally"](function () {
@@ -2197,7 +2234,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     emitNoteClick: function emitNoteClick(note) {
       this.activeNoteId = note.id;
-      this.$emit('note-clicked', note);
+      this.$emit("note-clicked", note);
+    },
+    emitNewNote: function emitNewNote(stats) {
+      this.$emit("new-note", stats);
     }
   }
 });
@@ -2231,10 +2271,18 @@ __webpack_require__.r(__webpack_exports__);
       required: false
     }
   },
+  data: function data() {
+    return {
+      seen: 'none'
+    };
+  },
   computed: {
     printNoti: function printNoti() {
       return this.notify[0].type + "! " + this.notify[0].message;
     }
+  },
+  updated: function updated() {
+    this.seen = 'block';
   }
 });
 
@@ -38592,14 +38640,25 @@ var render = function() {
           _c(
             "div",
             { staticClass: "list col-md-4" },
-            [_c("notes-list", { on: { "note-clicked": _vm.onNoteClicked } })],
+            [
+              _c("notes-list", {
+                on: {
+                  "note-clicked": _vm.onNoteClicked,
+                  "new-note": _vm.onNewNote
+                }
+              })
+            ],
             1
           ),
           _vm._v(" "),
           _c(
             "div",
             { staticClass: "contents col-md-8" },
-            [_c("notes-content", { attrs: { note: _vm.activeNote } })],
+            [
+              _c("notes-content", {
+                attrs: { note: _vm.activeNote, show: _vm.status }
+              })
+            ],
             1
           )
         ])
@@ -38638,7 +38697,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "container" }, [
-      _vm.note
+      _vm.note || _vm.show == true
         ? _c("textarea", {
             directives: [
               {
@@ -38753,13 +38812,21 @@ var render = function() {
         _vm._v(_vm._s(_vm.firstline))
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "details d-flex" }, [
-        _c("span", { staticClass: "date" }, [_vm._v(_vm._s(_vm.updatedate))]),
-        _vm._v(" "),
-        _c("span", { staticClass: "description ml-1 text-truncate" }, [
-          _vm._v(_vm._s(_vm.secondline))
-        ])
-      ])
+      _c(
+        "div",
+        { staticClass: "details" },
+        [
+          _c("p", { staticClass: "description ml-1 text-truncate" }, [
+            _vm._v(_vm._s(_vm.secondline))
+          ]),
+          _vm._v(" "),
+          _c("pv", {
+            staticClass: "text-muted",
+            domProps: { textContent: _vm._s(_vm.updatedate) }
+          })
+        ],
+        1
+      )
     ]
   )
 }
@@ -38786,6 +38853,25 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "list p-3 bg-white shadow-sm" }, [
+    _c("br"),
+    _vm._v(" "),
+    _c("div", { staticClass: "list-group list-group-flush" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          nativeOn: {
+            click: function($event) {
+              return _vm.emitNewNote(true)
+            }
+          }
+        },
+        [_vm._v("+ New Note")]
+      )
+    ]),
+    _vm._v(" "),
+    _c("br"),
+    _vm._v(" "),
     _vm.loading
       ? _c(
           "div",
@@ -38803,18 +38889,24 @@ var render = function() {
           _c(
             "div",
             { staticClass: "list-group list-group-flush" },
-            _vm._l(_vm.notelist, function(n) {
-              return _c("notes-item", {
-                key: n.id,
-                attrs: { note: n, active: n.id == _vm.activeNoteId },
-                nativeOn: {
-                  click: function($event) {
-                    return _vm.emitNoteClick(n)
+            [
+              _vm._l(_vm.notelist, function(n) {
+                return _c("notes-item", {
+                  key: n.id,
+                  attrs: { note: n, active: n.id == _vm.activeNoteId },
+                  nativeOn: {
+                    click: function($event) {
+                      return _vm.emitNoteClick(n)
+                    }
                   }
-                }
-              })
-            }),
-            1
+                })
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "fixed-bottom" }, [
+                _vm._v(_vm._s(_vm.notelist.length))
+              ])
+            ],
+            2
           )
         ])
   ])
@@ -38842,22 +38934,21 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "div",
-      {
-        directives: [
+    _vm.notify
+      ? _c(
+          "div",
           {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.notify,
-            expression: "notify"
-          }
-        ],
-        staticClass: "alert alert-danger alert-dismissible fade show",
-        attrs: { role: "alert" }
-      },
-      [_c("strong", [_vm._v(_vm._s(_vm.printNoti))]), _vm._v(" "), _vm._m(0)]
-    )
+            staticClass: "alert alert-danger alert-dismissible fade show",
+            style: { display: _vm.seen },
+            attrs: { role: "alert" }
+          },
+          [
+            _c("strong", [_vm._v(_vm._s(_vm.printNoti))]),
+            _vm._v(" "),
+            _vm._m(0)
+          ]
+        )
+      : _vm._e()
   ])
 }
 var staticRenderFns = [

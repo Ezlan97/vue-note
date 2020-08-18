@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-dark bg-dark">
-    <a class="navbar-brand">Simply Note</a>
+    <a class="navbar-brand">Simply Note</a>    
     <form class="form-inline">
       <input class="form-control mr-sm-2" type="search" v-model="search" placeholder="Search" aria-label="Search" @keypress="searchContent"/>
     </form>
