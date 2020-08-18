@@ -9,7 +9,8 @@
                 @keyup="updateNote"
                 v-model="note.content"
                 id="content"
-            ></textarea>        
+            ></textarea>
+            {{ show }}
         </div>
     </div>
 </template>
@@ -19,6 +20,11 @@ export default {
     props: {
         note: {
             type: Object,
+            required: false
+        },
+
+        stats : {
+            type: Boolean,
             required: false
         }
     },

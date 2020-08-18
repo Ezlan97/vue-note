@@ -1994,10 +1994,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     note: {
       type: Object,
+      required: false
+    },
+    stats: {
+      type: Boolean,
       required: false
     }
   },
@@ -2055,6 +2060,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -38720,7 +38731,8 @@ var render = function() {
               }
             }
           })
-        : _vm._e()
+        : _vm._e(),
+      _vm._v("\n        " + _vm._s(_vm.show) + "\n    ")
     ])
   ])
 }
@@ -38775,11 +38787,52 @@ var render = function() {
             _vm.search = $event.target.value
           }
         }
-      })
+      }),
+      _vm._v(" "),
+      _vm._m(0)
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "dropdown" }, [
+      _c(
+        "span",
+        {
+          staticClass: "material-icons text-white dropdown-toggle",
+          attrs: {
+            id: "dropdownMenuButton",
+            "data-toggle": "dropdown",
+            "aria-haspopup": "true",
+            "aria-expanded": "false"
+          }
+        },
+        [_vm._v("face")]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "dropdown-menu dropdown-menu-right",
+          attrs: { "aria-labelledby": "dropdownMenuButton" }
+        },
+        [
+          _c(
+            "a",
+            {
+              staticClass: "dropdown-item",
+              attrs: { href: "/api/notes/logout" }
+            },
+            [_vm._v("Logout")]
+          )
+        ]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -38860,7 +38913,7 @@ var render = function() {
         "button",
         {
           staticClass: "btn btn-primary",
-          nativeOn: {
+          on: {
             click: function($event) {
               return _vm.emitNewNote(true)
             }

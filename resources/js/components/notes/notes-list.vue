@@ -2,7 +2,7 @@
     <div class="list p-3 bg-white shadow-sm">
         <br>
         <div class="list-group list-group-flush">
-            <button class="btn btn-primary" @click.native="emitNewNote(true)">+ New Note</button>                      
+            <button class="btn btn-primary" v-on:click="emitNewNote(true)">+ New Note</button>                      
         </div>
         <br>
         <div

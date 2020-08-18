@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Note;
 use Illuminate\Http\Request;
 
 class NoteController extends Controller
 {
+    public function page() {
+        return view('index');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return $note = Note::orderByDesc("id")->get();
+    {        
+        return $note = Note::where('user_id', Auth::user()->id)->orderByDesc("id")->get();
     }
 
     /**

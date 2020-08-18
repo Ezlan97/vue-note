@@ -3,6 +3,12 @@
     <a class="navbar-brand">Simply Note</a>    
     <form class="form-inline">
       <input class="form-control mr-sm-2" type="search" v-model="search" placeholder="Search" aria-label="Search" @keypress="searchContent"/>
+      <div class="dropdown">
+        <span class="material-icons text-white dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">face</span>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="/api/notes/logout">Logout</a>
+        </div>
+      </div>
     </form>
   </nav>
 </template>

@@ -80,8 +80,8 @@
                         <nav class="navbar navbar-dark bg-dark">
                             <a class="navbar-brand">Simply Note</a>    
                             <form class="form-inline">
-                                <a class="nav-link" href="{{ route('login') }}">Login</>
-                                    <a class="nav-link" href="{{ route('register') }}">Register</a>
+                                <a class="nav-link" href="{{ route('home') }}">Login</>
+                                    <a class="nav-link" href="{{ route('register.page') }}">Register</a>
                                 </form>
                             </nav>
                             @yield('content')

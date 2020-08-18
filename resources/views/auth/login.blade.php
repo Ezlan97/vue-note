@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="bg-white p-4">
+<div class="bg-white p-4 shadow-sm">
     <form method="POST" action="{{ route('login') }}">
         @csrf
         

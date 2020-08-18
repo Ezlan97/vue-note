@@ -10935,8 +10935,3 @@ a.text-dark:focus {
   font-feature-settings: "liga";
 }
 
-.wrapper {
-  align-items: center;
-  display: flex;
-  height: 100vh;
-}
