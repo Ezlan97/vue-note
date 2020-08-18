@@ -20,7 +20,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             return redirect()->route('notes');
         } else {
-            return redirect()->back()->with('danger', 'Emel atau kata laluan tidak tepat');
+            return redirect()->back()->with('danger', 'Email or password not correct!');
         }
     }
 
@@ -48,7 +48,6 @@ class AuthController extends Controller
 
     public function logout() {
         Auth::logout();
-
-        return redirect()->route('home');
+        return redirect()->route('home')->with('success', 'Logout successfully!');
     }
 }

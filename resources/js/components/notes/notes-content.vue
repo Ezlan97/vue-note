@@ -10,7 +10,6 @@
                 v-model="note.content"
                 id="content"
             ></textarea>
-            {{ show }}
         </div>
     </div>
 </template>

@@ -1994,7 +1994,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     note: {
@@ -38731,8 +38730,7 @@ var render = function() {
               }
             }
           })
-        : _vm._e(),
-      _vm._v("\n        " + _vm._s(_vm.show) + "\n    ")
+        : _vm._e()
     ])
   ])
 }

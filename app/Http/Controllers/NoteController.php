@@ -17,8 +17,9 @@ class NoteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {        
-        return $note = Note::where('user_id', Auth::user()->id)->orderByDesc("id")->get();
+    {   
+        // return $note = Note::where('user_id', Auth::user()->id)->orderByDesc("id")->get();     
+        return $note = Note::orderByDesc("id")->get();
     }
 
     /**
