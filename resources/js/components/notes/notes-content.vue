@@ -10,6 +10,7 @@
                 v-model="note.content"
                 id="content"
             ></textarea>
+            {{ this.note.id }}
         </div>
     </div>
 </template>
@@ -20,6 +21,9 @@ export default {
         note: {
             type: Object,
             required: false
+        },
+        user: {
+            type: Object
         }
     },
 
@@ -58,18 +62,16 @@ export default {
 
             //ready new variable
             let updatedContent = this.note;
-            if (this.note.id == null) {
+            if (!this.note.id) {
                 axios
                     .post("api/notes/store/", {
-                        content: updatedContent.content
+                        content: updatedContent.content,
+                        user_id: this.user.id
                     })
                     .then(res => {
-                        console.log("api data = " + res.data);
-                    })
-                    .catch(error => {
-                        // here catch error messages from laravel validator and show them
+                        this.note = res.data
                     });
-                console.log("save note");
+                console.log("save note : " + this.note.id);
             } else {
                 axios
                     .patch("api/notes/update/" + this.note.id, {

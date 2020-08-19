@@ -3,7 +3,7 @@
         <h5 class="mb-0 text-truncate">{{ firstline }}</h5>
         <div class="details">
             <p class="description ml-1 text-truncate">{{ secondline }}</p>
-            <pv v-text="updatedate" class="text-muted"></pv>
+            <p v-text="updatedate" class="text-muted"></p>
         </div>
     </div>
 </template>

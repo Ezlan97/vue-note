@@ -9,7 +9,7 @@
 </head>
 <body>
     <div id="app" class="app">
-        <notes-app></notes-app>
+        <notes-app :user="{{ Auth::user() }}"></notes-app>
     </div>
     <script src="{{ mix('js/app.js') }}"></script>
 </body>

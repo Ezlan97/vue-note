@@ -1935,7 +1935,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -1946,6 +1945,11 @@ __webpack_require__.r(__webpack_exports__);
     NotesContent: _notes_content_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     NotesHeader: _notes_header_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     NotesNotification: _notes_notification_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+  },
+  props: {
+    user: {
+      type: Object
+    }
   },
   data: function data() {
     return {
@@ -1991,11 +1995,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     note: {
       type: Object,
       required: false
+    },
+    user: {
+      type: Object
     }
   },
   data: function data() {
@@ -2025,20 +2033,22 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     // patch content and add debounce
     saveNote: _.debounce(function () {
+      var _this = this;
+
       //check if function called succesfully
       console.log("success : method save note called");
       console.log("Content : " + this.note.content); //ready new variable
 
       var updatedContent = this.note;
 
-      if (this.note.id == null) {
+      if (!this.note.id) {
         axios.post("api/notes/store/", {
-          content: updatedContent.content
+          content: updatedContent.content,
+          user_id: this.user.id
         }).then(function (res) {
-          console.log("api data = " + res.data);
-        })["catch"](function (error) {// here catch error messages from laravel validator and show them
+          _this.note = res.data;
         });
-        console.log("save note");
+        console.log("save note : " + this.note.id);
       } else {
         axios.patch("api/notes/update/" + this.note.id, {
           content: updatedContent.content
@@ -2224,6 +2234,11 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     NotesItem: _notes_item_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
+  props: {
+    user: {
+      type: Object
+    }
+  },
   data: function data() {
     return {
       loading: true,
@@ -2238,7 +2253,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.loading = true;
-      axios.get("api/notes").then(function (res) {
+      axios.get("api/notes/" + this.user.id).then(function (res) {
         _this.notelist = res.data;
         console.log("api data = " + notelist);
       })["finally"](function () {
@@ -38659,6 +38674,7 @@ var render = function() {
             { staticClass: "list col-md-4" },
             [
               _c("notes-list", {
+                attrs: { user: _vm.user },
                 on: {
                   "note-clicked": _vm.onNoteClicked,
                   "new-note": _vm.onNoteClicked
@@ -38673,7 +38689,11 @@ var render = function() {
             { staticClass: "contents col-md-8" },
             [
               _c("notes-content", {
-                attrs: { note: _vm.activeNote, show: _vm.status }
+                attrs: {
+                  note: _vm.activeNote,
+                  show: _vm.status,
+                  user: _vm.user
+                }
               })
             ],
             1
@@ -38737,7 +38757,8 @@ var render = function() {
               }
             }
           })
-        : _vm._e()
+        : _vm._e(),
+      _vm._v("\n        " + _vm._s(this.note.id) + "\n    ")
     ])
   ])
 }
@@ -38870,21 +38891,16 @@ var render = function() {
         _vm._v(_vm._s(_vm.firstline))
       ]),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "details" },
-        [
-          _c("p", { staticClass: "description ml-1 text-truncate" }, [
-            _vm._v(_vm._s(_vm.secondline))
-          ]),
-          _vm._v(" "),
-          _c("pv", {
-            staticClass: "text-muted",
-            domProps: { textContent: _vm._s(_vm.updatedate) }
-          })
-        ],
-        1
-      )
+      _c("div", { staticClass: "details" }, [
+        _c("p", { staticClass: "description ml-1 text-truncate" }, [
+          _vm._v(_vm._s(_vm.secondline))
+        ]),
+        _vm._v(" "),
+        _c("p", {
+          staticClass: "text-muted",
+          domProps: { textContent: _vm._s(_vm.updatedate) }
+        })
+      ])
     ]
   )
 }

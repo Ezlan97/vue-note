@@ -16,10 +16,10 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {   
-        // return $note = Note::where('user_id', Auth::user()->id)->orderByDesc("id")->get();     
-        return $note = Note::orderByDesc("id")->get();
+        return $note = Note::where('user_id', $id)->orderByDesc("id")->get();     
+        // return $note = Note::orderByDesc("id")->get();
     }
 
     /**
@@ -42,7 +42,7 @@ class NoteController extends Controller
     {
         $note = new Note();
         $note->content = $request->content;
-        $note->user_id = Auth::user()->id;
+        $note->user_id = $request->user_id;
         $note->save();
 
         return $note;

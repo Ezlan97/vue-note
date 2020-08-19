@@ -34,6 +34,12 @@ export default {
         NotesItem
     },
 
+    props: {
+        user: {
+            type: Object
+        }
+    },
+
     data() {
         return {
             loading: true,
@@ -50,7 +56,7 @@ export default {
             this.loading = true;
 
             axios
-                .get("api/notes")
+                .get("api/notes/" + this.user.id)
                 .then(res => {
                     this.notelist = res.data;
                     console.log("api data = " + notelist);

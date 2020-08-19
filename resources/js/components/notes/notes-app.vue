@@ -8,13 +8,12 @@
                     <notes-header @no-result-found="noResultFound" @result-found="onNoteClicked"/>
                 </div>
             </div>
-
             <div class="row">
                 <div class="list col-md-4">
-                    <notes-list @note-clicked="onNoteClicked" @new-note="onNoteClicked" />
+                    <notes-list @note-clicked="onNoteClicked" @new-note="onNoteClicked" :user="user"/>
                 </div>
                 <div class="contents col-md-8">
-                    <notes-content :note="activeNote" :show="status" />
+                    <notes-content :note="activeNote" :show="status" :user="user" />
                 </div>
             </div>
         </div>
@@ -34,6 +33,12 @@ export default {
         NotesContent,
         NotesHeader,
         NotesNotification,
+    },
+
+    props: {
+        user: {
+            type: Object,
+        }
     },
 
     data() {
