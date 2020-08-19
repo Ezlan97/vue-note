@@ -78,7 +78,7 @@ export default {
 
         .list {
             height: 80vh;
-            padding-right: 0%;
+            padding-right: 0%;    
         }
     }
 </style>

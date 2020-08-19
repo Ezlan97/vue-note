@@ -82,8 +82,9 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .list {
     height: 80vh;
+    overflow: scroll;
 }
 </style>
