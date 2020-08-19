@@ -2,7 +2,7 @@
     <div class="list p-3 bg-white shadow-sm">
         <br>
         <div class="list-group list-group-flush">
-            <button class="btn btn-primary" v-on:click="emitNewNote(true)">+ New Note</button>                      
+            <button class="btn btn-primary" v-on:click="emitNewNote()">+ New Note</button>                      
         </div>
         <br>
         <div
@@ -65,8 +65,12 @@ export default {
             this.$emit("note-clicked", note);
         },
 
-        emitNewNote(stats) {
-            this.$emit("new-note", stats);
+        emitNewNote() {
+            let note = {
+                content: "Edit here",
+                updated_at: new Date(),
+            }
+            this.$emit("new-note", note);
         }
     }
 };

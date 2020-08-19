@@ -42,6 +42,7 @@ class NoteController extends Controller
     {
         $note = new Note();
         $note->content = $request->content;
+        $note->user_id = Auth::user()->id;
         $note->save();
 
         return $note;

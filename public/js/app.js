@@ -1960,9 +1960,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     noResultFound: function noResultFound(noti) {
       this.notification = noti;
-    },
-    onNewNote: function onNewNote(stats) {
-      this.status = stats;
     }
   }
 });
@@ -1999,10 +1996,6 @@ __webpack_require__.r(__webpack_exports__);
     note: {
       type: Object,
       required: false
-    },
-    stats: {
-      type: Boolean,
-      required: false
     }
   },
   data: function data() {
@@ -2031,19 +2024,29 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     // patch content and add debounce
-    updateNote: _.debounce(function () {
+    saveNote: _.debounce(function () {
       //check if function called succesfully
       console.log("success : method save note called");
       console.log("Content : " + this.note.content); //ready new variable
 
-      var updatedContent = this.note; //call api and update
+      var updatedContent = this.note;
 
-      console.log("debounce this content : " + this.note.content);
-      axios.patch("api/notes/update/" + this.note.id, {
-        content: updatedContent.content
-      }).then(function (res) {
-        console.log("api data = " + res.data);
-      });
+      if (this.note.id == null) {
+        axios.post("api/notes/store/", {
+          content: updatedContent.content
+        }).then(function (res) {
+          console.log("api data = " + res.data);
+        })["catch"](function (error) {// here catch error messages from laravel validator and show them
+        });
+        console.log("save note");
+      } else {
+        axios.patch("api/notes/update/" + this.note.id, {
+          content: updatedContent.content
+        }).then(function (res) {
+          console.log("api data = " + res.data);
+        });
+        console.log("update note");
+      }
     }, 1000)
   }
 });
@@ -2246,8 +2249,12 @@ __webpack_require__.r(__webpack_exports__);
       this.activeNoteId = note.id;
       this.$emit("note-clicked", note);
     },
-    emitNewNote: function emitNewNote(stats) {
-      this.$emit("new-note", stats);
+    emitNewNote: function emitNewNote() {
+      var note = {
+        content: "Edit here",
+        updated_at: new Date()
+      };
+      this.$emit("new-note", note);
     }
   }
 });
@@ -38654,7 +38661,7 @@ var render = function() {
               _c("notes-list", {
                 on: {
                   "note-clicked": _vm.onNoteClicked,
-                  "new-note": _vm.onNewNote
+                  "new-note": _vm.onNoteClicked
                 }
               })
             ],
@@ -38721,7 +38728,7 @@ var render = function() {
             attrs: { id: "content" },
             domProps: { value: _vm.note.content },
             on: {
-              keyup: _vm.updateNote,
+              keyup: _vm.saveNote,
               input: function($event) {
                 if ($event.target.composing) {
                   return
@@ -38913,7 +38920,7 @@ var render = function() {
           staticClass: "btn btn-primary",
           on: {
             click: function($event) {
-              return _vm.emitNewNote(true)
+              return _vm.emitNewNote()
             }
           }
         },
@@ -51759,8 +51766,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/eizs798/Development/Sites/vue-notes/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/eizs798/Development/Sites/vue-notes/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Ez_lan\Development\Sites\vue-note\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Ez_lan\Development\Sites\vue-note\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

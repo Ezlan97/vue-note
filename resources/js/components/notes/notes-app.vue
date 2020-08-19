@@ -11,7 +11,7 @@
 
             <div class="row">
                 <div class="list col-md-4">
-                    <notes-list @note-clicked="onNoteClicked" @new-note="onNewNote" />
+                    <notes-list @note-clicked="onNoteClicked" @new-note="onNoteClicked" />
                 </div>
                 <div class="contents col-md-8">
                     <notes-content :note="activeNote" :show="status" />
@@ -51,10 +51,6 @@ export default {
 
         noResultFound(noti) {
             this.notification = noti;
-        },
-
-        onNewNote(stats) {
-            this.status = stats;
         }
     },    
 }

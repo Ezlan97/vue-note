@@ -6,7 +6,7 @@
             <textarea
                 class="contentbox form-control"
                 v-if="note || show == true"
-                @keyup="updateNote"
+                @keyup="saveNote"
                 v-model="note.content"
                 id="content"
             ></textarea>
@@ -20,18 +20,13 @@ export default {
         note: {
             type: Object,
             required: false
-        },
-
-        stats : {
-            type: Boolean,
-            required: false
         }
     },
 
     data() {
-      return {
-        show: false,
-      }
+        return {
+            show: false
+        };
     },
 
     computed: {
@@ -56,23 +51,35 @@ export default {
 
     methods: {
         // patch content and add debounce
-        updateNote: _.debounce(function() {
+        saveNote: _.debounce(function() {
             //check if function called succesfully
             console.log("success : method save note called");
             console.log("Content : " + this.note.content);
 
             //ready new variable
             let updatedContent = this.note;
-
-            //call api and update
-            console.log("debounce this content : " + this.note.content);
-            axios
-                .patch("api/notes/update/" + this.note.id, {
-                    content: updatedContent.content
-                })
-                .then(res => {
-                    console.log("api data = " + res.data);
-                });
+            if (this.note.id == null) {
+                axios
+                    .post("api/notes/store/", {
+                        content: updatedContent.content
+                    })
+                    .then(res => {
+                        console.log("api data = " + res.data);
+                    })
+                    .catch(error => {
+                        // here catch error messages from laravel validator and show them
+                    });
+                console.log("save note");
+            } else {
+                axios
+                    .patch("api/notes/update/" + this.note.id, {
+                        content: updatedContent.content
+                    })
+                    .then(res => {
+                        console.log("api data = " + res.data);
+                    });
+                console.log("update note");
+            }
         }, 1000)
     }
 };
