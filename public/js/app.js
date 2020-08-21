@@ -1967,6 +1967,9 @@ __webpack_require__.r(__webpack_exports__);
     noteActive: function noteActive() {
       return this.$store.state.activeNote;
     }
+  },
+  mounted: function mounted() {
+    console.log('mounted');
   }
 });
 
@@ -2269,12 +2272,15 @@ __webpack_require__.r(__webpack_exports__);
         content: "Edit here",
         updated_at: new Date()
       };
-      this.$emit("new-note", note);
+      this.$store.dispatch('initNoteActive', note);
     }
   },
   computed: {
     notes: function notes() {
       return this.$store.state.noteLists;
+    },
+    activeNote: function activeNote() {
+      return this.$store.state.activeNote;
     }
   }
 });
@@ -38674,12 +38680,7 @@ var render = function() {
           _c(
             "div",
             { staticClass: "list col-md-4" },
-            [
-              _c("notes-list", {
-                attrs: { user: _vm.user },
-                on: { "new-note": _vm.onNoteClicked }
-              })
-            ],
+            [_c("notes-list", { attrs: { user: _vm.user } })],
             1
           ),
           _vm._v(" "),
@@ -38847,10 +38848,7 @@ var staticRenderFns = [
         [
           _c(
             "a",
-            {
-              staticClass: "dropdown-item",
-              attrs: { href: "/api/notes/logout" }
-            },
+            { staticClass: "dropdown-item", attrs: { href: "/logout" } },
             [_vm._v("Logout")]
           )
         ]
@@ -38966,7 +38964,7 @@ var render = function() {
               _vm._l(_vm.notes, function(n) {
                 return _c("notes-item", {
                   key: n.id,
-                  attrs: { note: n, active: n.id == _vm.activeNoteId },
+                  attrs: { note: n, active: n.id == _vm.activeNote.id },
                   nativeOn: {
                     click: function($event) {
                       return _vm.emitNoteClick(n)
@@ -53047,7 +53045,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     noteLists: [],
-    activeNote: []
+    activeNote: [],
+    loggedInUser: []
   },
   mutations: {
     INIT_NOTE_LIST: function INIT_NOTE_LIST(state, notes) {
@@ -53055,6 +53054,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     INIT_NOTE_ACTIVE: function INIT_NOTE_ACTIVE(state, note) {
       state.activeNote = note;
+    },
+    INIT_LOGGED_IN_USER: function INIT_LOGGED_IN_USER(state, user) {
+      state.loggedInUser = user;
     }
   },
   actions: {
@@ -53065,6 +53067,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     initNoteActive: function initNoteActive(_ref2, note) {
       var commit = _ref2.commit;
       commit('INIT_NOTE_ACTIVE', note);
+    },
+    initUser: function initUser(_ref3, user) {
+      var commit = _ref3.commit;
+      commit('INIT_LOGGED_IN_USER', user);
     }
   },
   getters: {}

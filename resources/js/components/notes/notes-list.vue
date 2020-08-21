@@ -17,7 +17,7 @@
                     v-for="n in notes"
                     :note="n"
                     :key="n.id"
-                    :active="n.id == activeNoteId"
+                    :active="n.id == activeNote.id"
                     @click.native="emitNoteClick(n)"
                 />
                 <div class="fixed-bottom">{{ notes.length }}</div>
@@ -74,13 +74,17 @@ export default {
                 content: "Edit here",
                 updated_at: new Date(),
             }
-            this.$emit("new-note", note);
+            this.$store.dispatch('initNoteActive', note);
         }
     },
 
     computed: {
         notes() {
             return this.$store.state.noteLists
+        },
+
+        activeNote() {
+            return this.$store.state.activeNote
         }
     }
 };

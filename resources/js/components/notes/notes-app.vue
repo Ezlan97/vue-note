@@ -10,7 +10,7 @@
             </div>
             <div class="row">
                 <div class="list col-md-4">
-                    <notes-list@new-note="onNoteClicked" :user="user"/>
+                    <notes-list :user="user"/>
                 </div>
                 <div class="contents col-md-8">
                     <notes-content :note="noteActive" :show="status" :user="user" />
@@ -59,6 +59,10 @@ export default {
         noteActive() {
             return this.$store.state.activeNote
         }
+    },
+
+    mounted() {
+        console.log('mounted')
     }
 }
 </script>

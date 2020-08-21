@@ -23,6 +23,6 @@ Route::group(['as' => 'api.notes.','prefix' => 'notes', 'middleware' => ['web']]
     Route::post('/store', 'NoteController@store')->name('note.post');
     Route::patch('/update/{note}', 'NoteController@update')->name('note.update');
     Route::post('/search', 'NoteController@search')->name('note.search');
-    Route::get('/logout', 'AuthController@logout')->name('logout');
+    Route::get('/logged-in', 'AuthController@loggedIn');
 });
 

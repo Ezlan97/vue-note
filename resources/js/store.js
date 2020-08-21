@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         noteLists: [],
-        activeNote: []      
+        activeNote: [],
+        loggedInUser: []
     },
 
     mutations: {
@@ -16,6 +17,10 @@ export default new Vuex.Store({
 
         INIT_NOTE_ACTIVE(state, note) {
             state.activeNote = note
+        },
+
+        INIT_LOGGED_IN_USER(state, user) {
+            state.loggedInUser = user
         }
     },
 
@@ -27,6 +32,10 @@ export default new Vuex.Store({
         initNoteActive({commit}, note) {
             commit('INIT_NOTE_ACTIVE', note);
         },
+
+        initUser({commit}, user) {
+            commit('INIT_LOGGED_IN_USER', user);
+        }
     },
 
     getters: {

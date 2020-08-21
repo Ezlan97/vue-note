@@ -6,7 +6,7 @@
       <div class="dropdown">
         <span class="material-icons text-white dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">face</span>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="/api/notes/logout">Logout</a>
+            <a class="dropdown-item" href="/logout">Logout</a>
         </div>
       </div>
     </form>

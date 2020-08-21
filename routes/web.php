@@ -17,5 +17,6 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::post('login', 'AuthController@login')->name('login');
 Route::get('register-page', 'AuthController@registerPage')->name('register.page');
 Route::post('register', 'AuthController@register')->name('register');
+Route::get('/logout', 'AuthController@logout')->name('logout');
 
 Route::get('notes', 'NoteController@page')->name('notes');
