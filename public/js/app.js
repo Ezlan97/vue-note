@@ -2119,7 +2119,7 @@ __webpack_require__.r(__webpack_exports__);
         } else {
           console.log("result found!");
 
-          _this.$emit('result-found', note);
+          _this.$store.dispatch('initNoteList', res.data);
         }
       });
     }, 1000)
@@ -38661,10 +38661,7 @@ var render = function() {
             { staticClass: "header col-md-12" },
             [
               _c("notes-header", {
-                on: {
-                  "no-result-found": _vm.noResultFound,
-                  "result-found": _vm.onNoteClicked
-                }
+                on: { "no-result-found": _vm.noResultFound }
               })
             ],
             1
@@ -53050,7 +53047,8 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
-    noteLists: []
+    noteLists: [],
+    activeNote: []
   },
   mutations: {
     INIT_NOTE_LIST: function INIT_NOTE_LIST(state, notes) {

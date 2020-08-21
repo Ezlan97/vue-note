@@ -5,7 +5,7 @@
             <notes-notification :notify="notification" />
             <div class="row">
                 <div class="header col-md-12">
-                    <notes-header @no-result-found="noResultFound" @result-found="onNoteClicked"/>
+                    <notes-header @no-result-found="noResultFound"/>
                 </div>
             </div>
             <div class="row">

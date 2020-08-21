@@ -41,7 +41,7 @@ export default {
                     this.$emit('no-result-found', this.noti);
                 } else {
                     console.log("result found!");
-                    this.$emit('result-found', note);
+                    this.$store.dispatch('initNoteList', res.data);
                 }
             });
         }, 1000),
