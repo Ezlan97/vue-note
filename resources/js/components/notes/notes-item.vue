@@ -1,9 +1,9 @@
 <template>
     <div class="list-group-item list-group-item-action" :class="{active: active}">
         <h5 class="mb-0 text-truncate">{{ firstline }}</h5>
-        <div class="details d-flex">
-            <span class="date">{{ updatedate }}</span>
-            <span class="description ml-1 text-truncate">{{ secondline }}</span>
+        <div class="details">
+            <p class="description ml-1 text-truncate">{{ secondline }}</p>
+            <p v-text="updatedate" class="text-muted"></p>
         </div>
     </div>
 </template>
@@ -43,7 +43,15 @@ export default {
         },
 
         updatedate() {            
-            return new Date(this.note.updated_at);
+            let date = new Date(this.note.updated_at);
+
+            return date.toLocaleString("en-gb", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            });
         }
     }
 }

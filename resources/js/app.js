@@ -8,6 +8,10 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import store from './store'
+
+
+// window._ = require('lodash');
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -28,5 +32,6 @@ Vue.component('notes-app', require('./components/notes/notes-app.vue').default);
  */
 
 const app = new Vue({
+    store,
     el: '#app',
 });

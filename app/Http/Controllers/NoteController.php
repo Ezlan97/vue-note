@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Note;
 use Illuminate\Http\Request;
 
 class NoteController extends Controller
 {
+    public function page() {
+        return view('index');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return $note = Note::orderByDesc("id")->get();
+    public function index($id)
+    {   
+        return $note = Note::where('user_id', $id)->orderByDesc("id")->get();     
+        // return $note = Note::orderByDesc("id")->get();
     }
 
     /**
@@ -37,6 +42,7 @@ class NoteController extends Controller
     {
         $note = new Note();
         $note->content = $request->content;
+        $note->user_id = $request->user_id;
         $note->save();
 
         return $note;
@@ -88,5 +94,11 @@ class NoteController extends Controller
     public function destroy(Note $note)
     {
         //
+    }
+
+    public function search(Request $request) {
+        $result = Note::where("content", "like", "%" . $request->search . "%")->get();
+
+        return $result;
     }
 }
