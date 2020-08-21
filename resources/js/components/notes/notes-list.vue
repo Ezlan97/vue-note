@@ -14,13 +14,13 @@
         <div v-else>
             <div class="list-group list-group-flush">
                 <notes-item
-                    v-for="n in notelist"
+                    v-for="n in notes"
                     :note="n"
                     :key="n.id"
                     :active="n.id == activeNoteId"
                     @click.native="emitNoteClick(n)"
                 />
-                <div class="fixed-bottom">{{ notelist.length }}</div>
+                <div class="fixed-bottom">{{ notes.length }}</div>
             </div>
         </div>
     </div>
@@ -42,8 +42,7 @@ export default {
 
     data() {
         return {
-            loading: true,
-            notelist: []
+            loading: true
         };
     },
 
@@ -58,8 +57,7 @@ export default {
             axios
                 .get("api/notes/" + this.user.id)
                 .then(res => {
-                    this.notelist = res.data;
-                    console.log("api data = " + notelist);
+                    this.$store.dispatch('initNoteList', res.data);
                 })
                 .finally(() => {
                     this.loading = false;
@@ -77,6 +75,12 @@ export default {
                 updated_at: new Date(),
             }
             this.$emit("new-note", note);
+        }
+    },
+
+    computed: {
+        notes() {
+            return this.$store.state.noteLists
         }
     }
 };

@@ -5,17 +5,19 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        noteList: []
+        noteLists: []
     },
 
     mutations: {
-
+        INIT_NOTE_LIST(state, notes) {
+            state.noteLists = notes
+        }
     },
 
     actions: {
-        initNotes({commit}, notes) {
-
-        }
+        initNoteList({commit}, notes) {
+            commit('INIT_NOTE_LIST', notes);
+        },
     },
 
     getters: {
