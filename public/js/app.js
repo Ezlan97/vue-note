@@ -1959,11 +1959,13 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    onNoteClicked: function onNoteClicked(note) {
-      this.activeNote = note;
-    },
     noResultFound: function noResultFound(noti) {
       this.notification = noti;
+    }
+  },
+  computed: {
+    noteActive: function noteActive() {
+      return this.$store.state.activeNote;
     }
   }
 });
@@ -2260,7 +2262,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     emitNoteClick: function emitNoteClick(note) {
       this.activeNoteId = note.id;
-      this.$emit("note-clicked", note);
+      this.$store.dispatch('initNoteActive', note);
     },
     emitNewNote: function emitNewNote() {
       var note = {
@@ -38675,10 +38677,7 @@ var render = function() {
             [
               _c("notes-list", {
                 attrs: { user: _vm.user },
-                on: {
-                  "note-clicked": _vm.onNoteClicked,
-                  "new-note": _vm.onNoteClicked
-                }
+                on: { "new-note": _vm.onNoteClicked }
               })
             ],
             1
@@ -38690,7 +38689,7 @@ var render = function() {
             [
               _c("notes-content", {
                 attrs: {
-                  note: _vm.activeNote,
+                  note: _vm.noteActive,
                   show: _vm.status,
                   user: _vm.user
                 }
@@ -53053,12 +53052,19 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   mutations: {
     INIT_NOTE_LIST: function INIT_NOTE_LIST(state, notes) {
       state.noteLists = notes;
+    },
+    INIT_NOTE_ACTIVE: function INIT_NOTE_ACTIVE(state, note) {
+      state.activeNote = note;
     }
   },
   actions: {
     initNoteList: function initNoteList(_ref, notes) {
       var commit = _ref.commit;
       commit('INIT_NOTE_LIST', notes);
+    },
+    initNoteActive: function initNoteActive(_ref2, note) {
+      var commit = _ref2.commit;
+      commit('INIT_NOTE_ACTIVE', note);
     }
   },
   getters: {}

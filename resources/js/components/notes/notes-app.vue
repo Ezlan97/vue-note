@@ -10,10 +10,10 @@
             </div>
             <div class="row">
                 <div class="list col-md-4">
-                    <notes-list @note-clicked="onNoteClicked" @new-note="onNoteClicked" :user="user"/>
+                    <notes-list@new-note="onNoteClicked" :user="user"/>
                 </div>
                 <div class="contents col-md-8">
-                    <notes-content :note="activeNote" :show="status" :user="user" />
+                    <notes-content :note="noteActive" :show="status" :user="user" />
                 </div>
             </div>
         </div>
@@ -50,14 +50,16 @@ export default {
     },
 
     methods: {
-        onNoteClicked(note) {
-            this.activeNote = note;
-        },
-
         noResultFound(noti) {
             this.notification = noti;
         }
-    },    
+    },
+
+    computed: {
+        noteActive() {
+            return this.$store.state.activeNote
+        }
+    }
 }
 </script>
 

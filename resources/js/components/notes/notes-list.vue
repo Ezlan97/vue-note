@@ -66,7 +66,7 @@ export default {
 
         emitNoteClick(note) {
             this.activeNoteId = note.id;
-            this.$emit("note-clicked", note);
+            this.$store.dispatch('initNoteActive', note);
         },
 
         emitNewNote() {
