@@ -62,6 +62,8 @@ export default {
 
             //ready new variable
             let updatedContent = this.note;
+
+            // check need update or create new note
             if (!this.note.id) {
                 axios
                     .post("api/notes/store/", {
