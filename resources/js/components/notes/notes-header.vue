@@ -6,7 +6,7 @@
       <div class="dropdown">
         <span class="material-icons text-white dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">face</span>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="/api/notes/logout">Logout</a>
+            <a class="dropdown-item" href="/logout">Logout</a>
         </div>
       </div>
     </form>
@@ -23,8 +23,7 @@ export default {
     },
 
     methods: {
-        searchContent: _.debounce(function () { 
-            console.log(this.search);
+        searchContent: _.debounce(function () {             
             axios.post("api/notes/search", {
                 search: this.search,
             })
@@ -41,7 +40,7 @@ export default {
                     this.$emit('no-result-found', this.noti);
                 } else {
                     console.log("result found!");
-                    this.$emit('result-found', note);
+                    this.$store.dispatch('initNoteList', res.data);
                 }
             });
         }, 1000),

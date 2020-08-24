@@ -37,7 +37,7 @@
                 <div>
                     <div class="session alert alert-success" role="alert" id="session">
                         <a href="#" class="close" data-dismiss="alert">&times;</a>
-                        <strong>Berjaya!</strong> {{ Session::get('success') }}
+                        <strong>Success!</strong> {{ Session::get('success') }}
                     </div>
                 </div>
                 @endif
