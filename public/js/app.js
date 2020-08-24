@@ -2000,6 +2000,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     note: {
@@ -2052,7 +2061,7 @@ __webpack_require__.r(__webpack_exports__);
         }).then(function (res) {
           _this.note = res.data;
 
-          _this.$store.dispatch('pushToNoteList', res.data);
+          _this.$store.dispatch("pushToNoteList", res.data);
         });
         console.log("save note : " + this.note.id);
       } else {
@@ -2206,7 +2215,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _notes_item_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./notes-item.vue */ "./resources/js/components/notes/notes-item.vue");
-//
 //
 //
 //
@@ -6782,7 +6790,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".form-control {\n  display: block;\n  width: 100%;\n  height: calc(1.6em + 0.75rem + 2px);\n  padding: 0.375rem 0.75rem;\n  font-size: 0.9rem;\n  font-weight: 400;\n  line-height: 1.6;\n  color: #495057;\n  background-color: #fff;\n  background-clip: padding-box;\n  border: 1px solid #ced4da;\n  border-radius: 0.25rem;\n  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\n}\n.content {\n  height: 80vh;\n}", ""]);
+exports.push([module.i, ".form-control {\n  display: block;\n  width: 100%;\n  height: calc(1.6em + 0.75rem + 2px);\n  padding: 0.375rem 0.75rem;\n  font-size: 0.9rem;\n  font-weight: 400;\n  line-height: 1.6;\n  color: #495057;\n  background-color: #fff;\n  background-clip: padding-box;\n  border: 1px solid #ced4da;\n  border-radius: 0.25rem;\n  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;\n}\n.content {\n  height: 80vh;\n}\n.footer {\n  position: absolute;\n  bottom: 0;\n  height: 60px;\n  /* Set the fixed height of the footer here */\n  line-height: 60px;\n  /* Vertically center the text there */\n}", ""]);
 
 // exports
 
@@ -38758,6 +38766,14 @@ var render = function() {
             }
           })
         : _vm._e()
+    ]),
+    _vm._v(" "),
+    _c("footer", { staticClass: "footer" }, [
+      _c("div", { staticClass: "container" }, [
+        _c("span", { staticClass: "text-muted" }, [
+          _vm._v("Total Note : " + _vm._s(this.$store.state.noteLists.length))
+        ])
+      ])
     ])
   ])
 }
@@ -38959,24 +38975,18 @@ var render = function() {
           _c(
             "div",
             { staticClass: "list-group list-group-flush" },
-            [
-              _vm._l(_vm.notes, function(n) {
-                return _c("notes-item", {
-                  key: n.id,
-                  attrs: { note: n, active: n.id == _vm.activeNote.id },
-                  nativeOn: {
-                    click: function($event) {
-                      return _vm.emitNoteClick(n)
-                    }
+            _vm._l(_vm.notes, function(n) {
+              return _c("notes-item", {
+                key: n.id,
+                attrs: { note: n, active: n.id == _vm.activeNote.id },
+                nativeOn: {
+                  click: function($event) {
+                    return _vm.emitNoteClick(n)
                   }
-                })
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "fixed-bottom" }, [
-                _vm._v(_vm._s(_vm.notes.length))
-              ])
-            ],
-            2
+                }
+              })
+            }),
+            1
           )
         ])
   ])

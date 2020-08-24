@@ -1,4 +1,5 @@
 <template>
+
     <div class="content bg-light shadow-sm">
         <br />
         <p class="date text-center">{{ formatedDate }}</p>
@@ -11,7 +12,15 @@
                 id="content"
             ></textarea>
         </div>
+        <footer class="footer">
+            <div class="container">
+                <span class="text-muted"
+                    >Total Note : {{ this.$store.state.noteLists.length }}</span
+                >
+            </div>
+        </footer>
     </div>
+
 </template>
 
 <script>
@@ -70,8 +79,8 @@ export default {
                         user_id: this.user.id
                     })
                     .then(res => {
-                        this.note = res.data
-                        this.$store.dispatch('pushToNoteList', res.data)
+                        this.note = res.data;
+                        this.$store.dispatch("pushToNoteList", res.data);
                     });
                 console.log("save note : " + this.note.id);
             } else {
@@ -107,5 +116,12 @@ export default {
 }
 .content {
     height: 80vh;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  height: 60px; /* Set the fixed height of the footer here */
+  line-height: 60px; /* Vertically center the text there */
 }
 </style>

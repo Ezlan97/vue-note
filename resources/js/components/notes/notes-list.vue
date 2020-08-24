@@ -20,7 +20,6 @@
                     :active="n.id == activeNote.id"
                     @click.native="emitNoteClick(n)"
                 />
-                <div class="fixed-bottom">{{ notes.length }}</div>
             </div>
         </div>
     </div>
