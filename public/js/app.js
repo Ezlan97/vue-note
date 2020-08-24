@@ -2073,18 +2073,9 @@ __webpack_require__.r(__webpack_exports__);
           _this.note = res.data;
 
           _this.$store.dispatch("pushToNoteList", res.data);
-        }); // axios
-        //     .post("api/notes/store/", {
-        //         content: updatedContent.content,
-        //         user_id: this.user.id
-        //     })
-        //     .then(res => {
-        //         this.note = res.data;
-        //         this.$store.dispatch("pushToNoteList", res.data);
-        //     });
-        // console.log("save note : " + this.note.id);
+        });
       } else {
-        axios.patch("api/notes/update/" + this.note.id, {
+        _api_note__WEBPACK_IMPORTED_MODULE_0__["default"].updateNote(this.note.id, {
           content: updatedContent.content
         }).then(function (res) {
           console.log("api data = " + res.data);
@@ -53357,7 +53348,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, _callee2);
     }))();
   },
-  updateNote: function updateNote(user_id, form) {
+  updateNote: function updateNote(note_id, form) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
@@ -53367,7 +53358,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return _csrf__WEBPACK_IMPORTED_MODULE_2__["default"].getCookie();
 
             case 2:
-              return _context3.abrupt("return", _api__WEBPACK_IMPORTED_MODULE_1__["default"].post("/notes/update/" + user_id, form));
+              return _context3.abrupt("return", _api__WEBPACK_IMPORTED_MODULE_1__["default"].patch("/notes/update/" + note_id, form));
 
             case 3:
             case "end":

@@ -79,24 +79,10 @@ export default {
           this.note = res.data;
           this.$store.dispatch("pushToNoteList", res.data);
         });
-        // axios
-        //     .post("api/notes/store/", {
-        //         content: updatedContent.content,
-        //         user_id: this.user.id
-        //     })
-        //     .then(res => {
-        //         this.note = res.data;
-        //         this.$store.dispatch("pushToNoteList", res.data);
-        //     });
-        // console.log("save note : " + this.note.id);
       } else {
-        axios
-          .patch("api/notes/update/" + this.note.id, {
-            content: updatedContent.content,
-          })
-          .then((res) => {
-            console.log("api data = " + res.data);
-          });
+        NoteAPI.updateNote(this.note.id, { content: updatedContent.content }).then((res) => {
+          console.log("api data = " + res.data);
+        });
         console.log("updated note");
       }
     }, 1000),

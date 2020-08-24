@@ -12,8 +12,8 @@ export default {
         return Api.post("/notes/store", form)
     },
 
-    async updateNote(user_id, form) {
+    async updateNote(note_id, form) {
         await Csrf.getCookie();
-        return Api.post("/notes/update/" + user_id, form)
+        return Api.patch("/notes/update/" + note_id, form)
     }
 }
