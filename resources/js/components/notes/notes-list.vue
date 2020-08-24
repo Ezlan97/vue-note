@@ -1,97 +1,94 @@
 <template>
-    <div class="list p-3 bg-white shadow-sm">
-        <br>
-        <div class="list-group list-group-flush">
-            <button class="btn btn-primary" v-on:click="emitNewNote()">+ New Note</button>                      
-        </div>
-        <br>
-        <div
-            v-if="loading"
-            class="d-flex h-100 align-tem-center justify-content-center"
-        >
-            <div class="spinner-border" role="status"></div>
-        </div>
-        <div v-else>
-            <div class="list-group list-group-flush">
-                <notes-item
-                    v-for="n in notes"
-                    :note="n"
-                    :key="n.id"
-                    :active="n.id == activeNote.id"
-                    @click.native="emitNoteClick(n)"
-                />
-            </div>
-        </div>
+  <div class="list p-3 bg-white shadow-sm">
+    <br />
+    <div class="list-group list-group-flush">
+      <button class="btn btn-primary" v-on:click="emitNewNote()">+ New Note</button>
     </div>
+    <br />
+    <div v-if="loading" class="d-flex h-100 align-tem-center justify-content-center">
+      <div class="spinner-border" role="status"></div>
+    </div>
+    <div v-else>
+      <div class="list-group list-group-flush">
+        <notes-item
+          v-for="n in notes"
+          :note="n"
+          :key="n.id"
+          :active="n.id == activeNote.id"
+          @click.native="emitNoteClick(n)"
+        />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import NotesItem from "./notes-item.vue";
+import NoteAPI from "../../api/note";
 
 export default {
-    components: {
-        NotesItem
+  components: {
+    NotesItem,
+  },
+
+  props: {
+    user: {
+      type: Object,
+    },
+  },
+
+  data() {
+    return {
+      loading: true,
+    };
+  },
+
+  mounted() {
+    this.getNoteList();
+  },
+
+  methods: {
+    getNoteList() {
+      this.loading = true;
+
+      NoteAPI.getAllNote(this.user.id)
+        .then((res) => {
+          this.$store.dispatch("initNoteList", res.data);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
 
-    props: {
-        user: {
-            type: Object
-        }
+    emitNoteClick(note) {
+      this.activeNoteId = note.id;
+      this.$store.dispatch("initNoteActive", note);
     },
 
-    data() {
-        return {
-            loading: true
-        };
+    emitNewNote() {
+      let note = {
+        content: "Edit here",
+        updated_at: new Date(),
+      };
+      this.$store.dispatch("initNoteActive", note);
+    },
+  },
+
+  computed: {
+    notes() {
+      return this.$store.state.noteLists;
     },
 
-    mounted() {
-        this.getNoteList();
+    activeNote() {
+      return this.$store.state.activeNote;
     },
-
-    methods: {
-        getNoteList() {
-            this.loading = true;
-
-            axios
-                .get("api/notes/" + this.user.id)
-                .then(res => {
-                    this.$store.dispatch('initNoteList', res.data);
-                })
-                .finally(() => {
-                    this.loading = false;
-                });
-        },
-
-        emitNoteClick(note) {
-            this.activeNoteId = note.id;
-            this.$store.dispatch('initNoteActive', note);
-        },
-
-        emitNewNote() {
-            let note = {
-                content: "Edit here",
-                updated_at: new Date(),
-            }
-            this.$store.dispatch('initNoteActive', note);
-        }
-    },
-
-    computed: {
-        notes() {
-            return this.$store.state.noteLists
-        },
-
-        activeNote() {
-            return this.$store.state.activeNote
-        }
-    }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .list {
-    height: 80vh;
-    overflow: scroll;
+  height: 80vh;
+  overflow: scroll;
 }
 </style>
