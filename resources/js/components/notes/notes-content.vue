@@ -14,7 +14,9 @@
     <!-- footer -->
     <footer class="footer">
       <div class="container">
-        <span class="text-muted">Total Note : {{ this.$store.state.noteLists.length }}</span>
+        <div class="float-right">
+          <p class="text-muted">Total Note : {{ this.$store.state.noteLists.length }}</p>
+        </div>
       </div>
     </footer>
   </div>
@@ -26,7 +28,6 @@ import NoteAPI from "../../api/note";
 export default {
   props: {
     note: {
-      type: Object,
       required: false,
     },
     user: {
@@ -87,6 +88,7 @@ export default {
       }
     }, 1000),
   },
+  
 };
 </script>
 

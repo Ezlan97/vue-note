@@ -15,5 +15,10 @@ export default {
     async updateNote(note_id, form) {
         await Csrf.getCookie();
         return Api.patch("/notes/update/" + note_id, form)
+    },
+
+    async searchNote(keyword) {
+        await Csrf.getCookie();
+        return Api.post("/notes/search", keyword)
     }
 }

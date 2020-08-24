@@ -2019,11 +2019,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     note: {
-      type: Object,
       required: false
     },
     user: {
@@ -2097,6 +2098,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api_note__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../api/note */ "./resources/js/api/note.js");
 //
 //
 //
@@ -2112,6 +2114,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2120,33 +2129,13 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    searchContent: _.debounce(function () {
-      var _this = this;
-
-      axios.post("api/notes/search", {
-        search: this.search
-      }).then(function (res) {
-        var note = res.data[0];
-
-        if (!res.data.length) {
-          console.log("no result found!");
-          _this.noti = []; //notification status and message
-
-          _this.noti.push({
-            type: 'failed',
-            message: 'No result found for keyword ' + _this.search
-          });
-
-          console.log(_this.noti);
-
-          _this.$emit('no-result-found', _this.noti);
-        } else {
-          console.log("result found!");
-
-          _this.$store.dispatch('initNoteList', res.data);
-        }
-      });
-    }, 1000)
+    emitNewNote: function emitNewNote() {
+      var note = {
+        content: "Edit here",
+        updated_at: new Date()
+      };
+      this.$store.dispatch("initNoteActive", note);
+    }
   }
 });
 
@@ -2250,6 +2239,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2263,32 +2259,51 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      loading: true
+      loading: true,
+      search: null
     };
   },
   mounted: function mounted() {
     this.getNoteList();
   },
   methods: {
-    getNoteList: function getNoteList() {
+    searchContent: _.debounce(function () {
       var _this = this;
+
+      _api_note__WEBPACK_IMPORTED_MODULE_1__["default"].searchNote({
+        search: this.search
+      }).then(function (res) {
+        if (!res.data.length) {
+          console.log("no result found!");
+          _this.noti = []; //notification status and message
+
+          _this.noti.push({
+            type: "failed",
+            message: "No result found for keyword " + _this.search
+          });
+
+          console.log(_this.noti);
+
+          _this.$emit("no-result-found", _this.noti);
+        } else {
+          console.log("result found!");
+
+          _this.$store.dispatch("initNoteList", res.data);
+        }
+      });
+    }, 1000),
+    getNoteList: function getNoteList() {
+      var _this2 = this;
 
       this.loading = true;
       _api_note__WEBPACK_IMPORTED_MODULE_1__["default"].getAllNote(this.user.id).then(function (res) {
-        _this.$store.dispatch("initNoteList", res.data);
+        _this2.$store.dispatch("initNoteList", res.data);
       })["finally"](function () {
-        _this.loading = false;
+        _this2.loading = false;
       });
     },
     emitNoteClick: function emitNoteClick(note) {
       this.activeNoteId = note.id;
-      this.$store.dispatch("initNoteActive", note);
-    },
-    emitNewNote: function emitNewNote() {
-      var note = {
-        content: "Edit here",
-        updated_at: new Date()
-      };
       this.$store.dispatch("initNoteActive", note);
     }
   },
@@ -39538,8 +39553,10 @@ var render = function() {
     _vm._v(" "),
     _c("footer", { staticClass: "footer" }, [
       _c("div", { staticClass: "container" }, [
-        _c("span", { staticClass: "text-muted" }, [
-          _vm._v("Total Note : " + _vm._s(this.$store.state.noteLists.length))
+        _c("div", { staticClass: "float-right" }, [
+          _c("p", { staticClass: "text-muted" }, [
+            _vm._v("Total Note : " + _vm._s(this.$store.state.noteLists.length))
+          ])
         ])
       ])
     ])
@@ -39570,33 +39587,19 @@ var render = function() {
   return _c("nav", { staticClass: "navbar navbar-dark bg-dark" }, [
     _c("a", { staticClass: "navbar-brand" }, [_vm._v("Simply Note")]),
     _vm._v(" "),
-    _c("form", { staticClass: "form-inline" }, [
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.search,
-            expression: "search"
-          }
-        ],
-        staticClass: "form-control mr-sm-2",
-        attrs: {
-          type: "search",
-          placeholder: "Search",
-          "aria-label": "Search"
-        },
-        domProps: { value: _vm.search },
-        on: {
-          keypress: _vm.searchContent,
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+    _c("div", { staticClass: "form-inline my-2 my-lg-0" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary mr-sm-2",
+          on: {
+            click: function($event) {
+              return _vm.emitNewNote()
             }
-            _vm.search = $event.target.value
           }
-        }
-      }),
+        },
+        [_vm._v("+ New Note")]
+      ),
       _vm._v(" "),
       _vm._m(0)
     ])
@@ -39710,18 +39713,32 @@ var render = function() {
     _c("br"),
     _vm._v(" "),
     _c("div", { staticClass: "list-group list-group-flush" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary",
-          on: {
-            click: function($event) {
-              return _vm.emitNewNote()
-            }
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.search,
+            expression: "search"
           }
+        ],
+        staticClass: "form-control mr-sm-2",
+        attrs: {
+          type: "search",
+          placeholder: "Search Note...",
+          "aria-label": "Search"
         },
-        [_vm._v("+ New Note")]
-      )
+        domProps: { value: _vm.search },
+        on: {
+          keypress: _vm.searchContent,
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.search = $event.target.value
+          }
+        }
+      })
     ]),
     _vm._v(" "),
     _c("br"),
@@ -53260,7 +53277,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 var Api = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
-  baseURL: 'http://vue-note.local/api/'
+  baseURL: 'http://vue-note.test/api/'
 });
 Api.defaults.withCredentials = true;
 /* harmony default export */ __webpack_exports__["default"] = (Api);
@@ -53366,6 +53383,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }
       }, _callee3);
+    }))();
+  },
+  searchNote: function searchNote(keyword) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.next = 2;
+              return _csrf__WEBPACK_IMPORTED_MODULE_2__["default"].getCookie();
+
+            case 2:
+              return _context4.abrupt("return", _api__WEBPACK_IMPORTED_MODULE_1__["default"].post("/notes/search", keyword));
+
+            case 3:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
     }))();
   }
 });

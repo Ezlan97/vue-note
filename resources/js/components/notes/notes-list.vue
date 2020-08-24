@@ -2,7 +2,14 @@
   <div class="list p-3 bg-white shadow-sm">
     <br />
     <div class="list-group list-group-flush">
-      <button class="btn btn-primary" v-on:click="emitNewNote()">+ New Note</button>
+      <input
+        class="form-control mr-sm-2"
+        type="search"
+        v-model="search"
+        placeholder="Search Note..."
+        aria-label="Search"
+        @keypress="searchContent"
+      />
     </div>
     <br />
     <div v-if="loading" class="d-flex h-100 align-tem-center justify-content-center">
@@ -40,6 +47,7 @@ export default {
   data() {
     return {
       loading: true,
+      search: null,
     };
   },
 
@@ -48,6 +56,25 @@ export default {
   },
 
   methods: {
+    searchContent: _.debounce(function () {
+      NoteAPI.searchNote({ search: this.search }).then((res) => {
+        if (!res.data.length) {
+          console.log("no result found!");
+          this.noti = [];
+          //notification status and message
+          this.noti.push({
+            type: "failed",
+            message: "No result found for keyword " + this.search,
+          });
+          console.log(this.noti);
+          this.$emit("no-result-found", this.noti);
+        } else {
+          console.log("result found!");
+          this.$store.dispatch("initNoteList", res.data);
+        }
+      });
+    }, 1000),
+
     getNoteList() {
       this.loading = true;
 
@@ -62,14 +89,6 @@ export default {
 
     emitNoteClick(note) {
       this.activeNoteId = note.id;
-      this.$store.dispatch("initNoteActive", note);
-    },
-
-    emitNewNote() {
-      let note = {
-        content: "Edit here",
-        updated_at: new Date(),
-      };
       this.$store.dispatch("initNoteActive", note);
     },
   },
