@@ -15,6 +15,10 @@ export default new Vuex.Store({
             state.noteLists = notes
         },
 
+        PUSH_TO_NOTE_LIST(state, note) {
+            state.noteLists.push(note)
+        },
+
         INIT_NOTE_ACTIVE(state, note) {
             state.activeNote = note
         },
@@ -27,6 +31,10 @@ export default new Vuex.Store({
     actions: {
         initNoteList({commit}, notes) {
             commit('INIT_NOTE_LIST', notes);
+        },
+
+        pushToNoteList({commit}, note) {
+            commit('PUSH_TO_NOTE_LIST', note);
         },
 
         initNoteActive({commit}, note) {

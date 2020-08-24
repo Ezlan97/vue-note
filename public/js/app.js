@@ -2000,7 +2000,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     note: {
@@ -2020,8 +2019,8 @@ __webpack_require__.r(__webpack_exports__);
     formatedDate: function formatedDate() {
       var date = null;
 
-      if (this.note) {
-        date = new Date(this.note.updated_at);
+      if (this.$store.state.activeNote != []) {
+        date = new Date(this.$store.state.activeNote.updated_at);
       } else {
         date = new Date();
       }
@@ -2052,6 +2051,8 @@ __webpack_require__.r(__webpack_exports__);
           user_id: this.user.id
         }).then(function (res) {
           _this.note = res.data;
+
+          _this.$store.dispatch('pushToNoteList', res.data);
         });
         console.log("save note : " + this.note.id);
       } else {
@@ -2060,7 +2061,7 @@ __webpack_require__.r(__webpack_exports__);
         }).then(function (res) {
           console.log("api data = " + res.data);
         });
-        console.log("update note");
+        console.log("updated note");
       }
     }, 1000)
   }
@@ -2103,7 +2104,6 @@ __webpack_require__.r(__webpack_exports__);
     searchContent: _.debounce(function () {
       var _this = this;
 
-      console.log(this.search);
       axios.post("api/notes/search", {
         search: this.search
       }).then(function (res) {
@@ -38757,8 +38757,7 @@ var render = function() {
               }
             }
           })
-        : _vm._e(),
-      _vm._v("\n        " + _vm._s(this.note.id) + "\n    ")
+        : _vm._e()
     ])
   ])
 }
@@ -53052,6 +53051,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     INIT_NOTE_LIST: function INIT_NOTE_LIST(state, notes) {
       state.noteLists = notes;
     },
+    PUSH_TO_NOTE_LIST: function PUSH_TO_NOTE_LIST(state, note) {
+      state.noteLists.push(note);
+    },
     INIT_NOTE_ACTIVE: function INIT_NOTE_ACTIVE(state, note) {
       state.activeNote = note;
     },
@@ -53064,12 +53066,16 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       var commit = _ref.commit;
       commit('INIT_NOTE_LIST', notes);
     },
-    initNoteActive: function initNoteActive(_ref2, note) {
+    pushToNoteList: function pushToNoteList(_ref2, note) {
       var commit = _ref2.commit;
+      commit('PUSH_TO_NOTE_LIST', note);
+    },
+    initNoteActive: function initNoteActive(_ref3, note) {
+      var commit = _ref3.commit;
       commit('INIT_NOTE_ACTIVE', note);
     },
-    initUser: function initUser(_ref3, user) {
-      var commit = _ref3.commit;
+    initUser: function initUser(_ref4, user) {
+      var commit = _ref4.commit;
       commit('INIT_LOGGED_IN_USER', user);
     }
   },

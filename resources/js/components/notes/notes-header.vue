@@ -23,8 +23,7 @@ export default {
     },
 
     methods: {
-        searchContent: _.debounce(function () { 
-            console.log(this.search);
+        searchContent: _.debounce(function () {             
             axios.post("api/notes/search", {
                 search: this.search,
             })

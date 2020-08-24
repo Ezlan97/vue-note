@@ -10,7 +10,6 @@
                 v-model="note.content"
                 id="content"
             ></textarea>
-            {{ this.note.id }}
         </div>
     </div>
 </template>
@@ -37,8 +36,8 @@ export default {
         formatedDate() {
             let date = null;
 
-            if (this.note) {
-                date = new Date(this.note.updated_at);
+            if (this.$store.state.activeNote != []) {
+                date = new Date(this.$store.state.activeNote.updated_at);
             } else {
                 date = new Date();
             }
@@ -72,6 +71,7 @@ export default {
                     })
                     .then(res => {
                         this.note = res.data
+                        this.$store.dispatch('pushToNoteList', res.data)
                     });
                 console.log("save note : " + this.note.id);
             } else {
@@ -82,7 +82,7 @@ export default {
                     .then(res => {
                         console.log("api data = " + res.data);
                     });
-                console.log("update note");
+                console.log("updated note");
             }
         }, 1000)
     }
