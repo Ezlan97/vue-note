@@ -12,11 +12,10 @@
                 id="content"
             ></textarea>
         </div>
+        <!-- footer -->
         <footer class="footer">
             <div class="container">
-                <span class="text-muted"
-                    >Total Note : {{ this.$store.state.noteLists.length }}</span
-                >
+                <span class="text-muted">Total Note : {{ this.$store.state.noteLists.length }}</span>                
             </div>
         </footer>
     </div>
